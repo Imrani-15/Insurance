@@ -1,0 +1,63 @@
+version: "2.0"
+
+stories:
+
+- story: happy path
+  steps:
+  - intent: greet
+  - action: utter_greet
+  - intent: mood_great
+  - action: utter_happy
+
+- story: sad path 1
+  steps:
+  - intent: greet
+  - action: utter_greet
+  - intent: mood_unhappy
+  - action: utter_cheer_up
+  - action: utter_did_that_help
+  - intent: affirm
+  - action: utter_happy
+
+- story: sad path 2
+  steps:
+  - intent: greet
+  - action: utter_greet
+  - intent: mood_unhappy
+  - action: utter_cheer_up
+  - action: utter_did_that_help
+  - intent: deny
+  - action: utter_goodbye
+
+- story: claim new
+  steps:
+  - intent: claim_new
+  - action: utter_claim_new
+
+- story: first name
+  steps:
+  - intent: first_name
+  - action: utter_first_name
+  - intent: first_name
+  - action: action_first_name
+
+- story: policy Num
+  steps:
+  - intent: policy_Num
+  - action: utter_policy_Num
+  - intent: policy_Num
+  - action: action_policy_Num
+
+- story: incident date
+  steps:
+  - intent: incident_date
+  - action: utter_incident_date
+  - intent: incident_date
+  - action: action_incident_date
+
+- story: incident reason
+  steps:
+  - intent: incident_reason
+  - action: utter_incident_reason
+  - intent: incident_reason
+  - action: action_incident_reason
