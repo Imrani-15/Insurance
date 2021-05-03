@@ -113,14 +113,16 @@ nlu:
     - policy [123456](policy)
     - I want to pay premium for my policy number [564552](policy)
 
+
 - intent: incident_date
   examples: |
-    - it happened on [March](month) [24](day), [2019](year)
-    - on [06](month)/[31](day)/[2019](year)
+    - it happened on [March][24],[2019](Date)
+    - on [06]/[31]/[2019](Date)
     - it happened last [Thursday](dayofweek)
     - I hit a car on [Monday](dayofweek)
 
 - intent: incident_reason
   examples: |
-    - I hit the fornt gate
-    - ran into a pole
+    - I hit the fornt gate(reason)
+    - ran into a pole(reason)
+

@@ -10,9 +10,11 @@
 from typing import Any, Text, Dict, List
 
 from rasa_sdk import Action, Tracker
+from rasa_sdk.events import SlotSet, EventType
 from rasa_sdk.executor import CollectingDispatcher
 from databases import Database
 from integrate_database import getData
+import webbrowser
 
 
 class ActionFirstname(Action):
@@ -99,19 +101,37 @@ class ActionIncidentReason(Action):
         return []
 
 
-class ActionFormInfo(Action):
-
+class ValidateForm(Action):
     def name(self) -> Text:
-        return "form_info"
+        return "user_details_form"
 
-    def required_slots(tracker: Tracker) -> List[Text]:
-        return["Firstname","Policy Number","Incident Date","Incident Reason"]
+    def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict) -> List[EventType]:
 
-    #def run(self, dispatcher: CollectingDispatcher,
-    #            tracker: Tracker, domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-    #    return {"Firstname": [self.from_entity(entity="name",intent = "first_name")],"Policy Number": [self.from_text()], "Incident Date": [self.from_text()],"Incident Reason": [self.from_text()]
+        required_slots = ["first_name", "policy_Num","incident_date","incident_reason"]
 
-    def run(self, dispatcher: CollectingDispatcher,
-            tracker: Tracker,domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-        dispatcher.utter_message(template="utter_submit",Firstname=tracker.get_slot("Firstname"),PolicyNum=tracker.get_slot("Policy Number"), IncidentDate=tracker.get_slot("Incident Date"),IncidentReason=tracker.get_slot("Incident Reason"))
-        return []
+        for slot_name in required_slots:
+            if tracker.slots.get(slot_name) is None:
+                return [SlotSet("required_slots",slot_name)]
+        return [SlotSet("required_slots",None)]
+
+
+class ActionSubmit(Action):
+    def name(self) -> Text:
+        return "action_submit"
+
+    def run(self,dispatcher,tracker: Tracker,domain: "DomainDict",) -> List[Dict[Text, Any]]:
+
+        dispatcher.utter_message(template="utter_submit",Name=tracker.get_slot("name"),
+                                 PolicyNumber=tracker.get_slot("policy"),
+                                 IncidentDate=tracker.get_slot("Date"),
+                                 IncidentReason=tracker.get_slot("reason"))
+
+
+
+
+
+
+
+
+
+

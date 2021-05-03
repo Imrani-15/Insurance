@@ -34,30 +34,33 @@ stories:
   - intent: claim_new
   - action: utter_claim_new
 
-- story: first name
-  steps:
-  - intent: first_name
-  - action: utter_first_name
-  - intent: first_name
-  - action: action_first_name
+#- story: first name
+#  steps:
+#  - intent: first_name
+#  - action: utter_first_name
+#  - intent: first_name
+#  - action: action_first_name
 
-- story: policy Num
-  steps:
-  - intent: policy_Num
-  - action: utter_policy_Num
-  - intent: policy_Num
-  - action: action_policy_Num
+#- story: policy Num
+#  steps:
+#  - intent: policy_Num
+#  - action: utter_policy_Num
+#  - intent: policy_Num
+#  - action: action_policy_Num
 
-- story: incident date
-  steps:
-  - intent: incident_date
-  - action: utter_incident_date
-  - intent: incident_date
-  - action: action_incident_date
+#- story: incident date
+#  steps:
+#  - intent: incident_date
+#  - action: utter_incident_date
+#  - intent: incident_date
+#  - action: action_incident_date
 
-- story: incident reason
-  steps:
-  - intent: incident_reason
-  - action: utter_incident_reason
-  - intent: incident_reason
-  - action: action_incident_reason
+#- story: incident reason
+#  steps:
+#  - intent: incident_reason
+#  - action: utter_incident_reason
+#  - intent: incident_reason
+#  - action: action_incident_reason
+
+
+
