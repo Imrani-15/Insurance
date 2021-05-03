@@ -1,26 +1,34 @@
 import mysql.connector
-import traceback
-def data_update(Firstname,Policy_No,Date,incident_reason):
-    Ins = mysql.connector.connect(user='root',password='Imri@100$',host='127.0.0.1',database='rasa_db',auth_plugin='mysql_native_password')
-    mycursor = Ins.cursor()
-    table = "CREATE TABLE insurance1 (Firstname VARCHAR(255),Policy_No VARCHAR(255),Date VARCHAR(255),incident_reason VARCHAR(255));"
-    table = "INSERT INTO insurance1 (Firstname,Policy_No,Date,incident_reason) VALUES ('{0}','{1}','{2}','{3}');".format(Firstname,Policy_No,Date,incident_reason)
+#import traceback
+def dataupdate(name,policy):
+    mydb = mysql.connector.connect(
+        host="localhost",
+        user="root",
+        passwd="Imri@100$",
+        database="rasa_db",
+        auth_plugin = 'mysql_native_password'
+    )
+    mycursor = mydb.cursor()
+
+#    table = "CREATE TABLE connect (name VARCHAR(255),policy VARCHAR(255));"
+    table = "INSERT INTO connect (name,policy) VALUES ('{0}','{1}');".format(name,policy)
+
     mycursor.execute(table)
-    Ins.commit()
+
+    mydb.commit()
+
     print(mycursor.rowcount, "row inserted.")
-    Ins.close()
 
 if __name__=="__main__":
+    dataupdate("pooja",786954)
 
-    data_update("sita", 789456, "15-08-2010", "It was car accident")
 
-def getData(query:str):
-    try:
-        Ins = mysql.connector.connect(user='root',password='Imri@100$',host='127.0.0.1',database='rasa_db',auth_plugin='mysql_native_password')
-        cursor = Ins.cursor()
-        cursor.execute(query)
-        results = cursor.fetchall()
-        return results
-    except:
-        print("Error occured while connecting to database or fetching data from database. Error Trace: {}".format(traceback.format_exc()))
-        return []
+
+
+
+
+
+
+#    myresult = mycursor.fetchall()
+#    for x in myresult:
+#        print(x)

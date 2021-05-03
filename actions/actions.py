@@ -12,119 +12,103 @@ from typing import Any, Text, Dict, List
 from rasa_sdk import Action, Tracker
 from rasa_sdk.events import SlotSet, EventType
 from rasa_sdk.executor import CollectingDispatcher
-from databases import Database
-from integrate_database import getData
-import webbrowser
+from rasa_sdk.forms import FormAction
+#from databases import Database
+from integrate_database import dataupdate
+#import webbrowser
+#import mysql.connector
 
-
-class ActionFirstname(Action):
-
+class ActionName(Action):
     def name(self) -> Text:
-        return "action_first_name"
+        """Unique identifier of the form"""
 
-    def run(self, dispatcher: CollectingDispatcher,
-            tracker: Tracker,
-            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-        # write the sql query here.
-        query = "select * from insurance1"
+        return "action_name"
 
-        # pass the sql query to the getData method and store the results in `data` variable.
-        data = getData(query)
-
-        print("data: ", data)
-
-        dispatcher.utter_message(text="utter_first_name", json_message=data)
-
-        return []
+    def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        dispatcher.utter_message(template="utter_ask_name",name=tracker.get_slot("name"))
+        #dataupdate(name=tracker.get_slot("name"))
+        return [SlotSet('name', tracker.latest_message['text'])]
 
 
-class ActionPolicyNum(Action):
-
+class ActionPolicy(Action):
     def name(self) -> Text:
-        return "action_policy_Num"
+        """Unique identifier of the form"""
+        return "action_policy"
 
-    def run(self, dispatcher: CollectingDispatcher,
-            tracker: Tracker,
-            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-        # write the sql query here.
-        query = "select * from insurance1"
+    def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        dispatcher.utter_message(template="utter_ask_policy",policy=tracker.get_slot("policy"))
+        #dataupdate(policy=tracker.get_slot("policy"))
+        return [SlotSet('policy', tracker.latest_message['text'])]
 
-        # pass the sql query to the getData method and store the results in `data` variable.
-        data = getData(query)
-
-        print("data: ", data)
-
-        dispatcher.utter_message(text="utter_policy_Num", json_message=data)
-
-        return []
-
-
-class ActionIncidentDate(Action):
-
-    def name(self) -> Text:
-        return "action_incident_date"
-
-    def run(self, dispatcher: CollectingDispatcher,
-            tracker: Tracker,
-            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-        # write the sql query here.
-        query = "select * from insurance1"
-
-        # pass the sql query to the getData method and store the results in `data` variable.
-        data = getData(query)
-
-        print("data: ", data)
-
-        dispatcher.utter_message(text="utter_incident_date", json_message=data)
-
-        return []
-
-
-class ActionIncidentReason(Action):
-
-    def name(self) -> Text:
-        return "action_incident_reason"
-
-    def run(self, dispatcher: CollectingDispatcher,
-            tracker: Tracker,
-            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-        # write the sql query here.
-        query = "select * from insurance1"
-
-        # pass the sql query to the getData method and store the results in `data` variable.
-        data = getData(query)
-
-        print("data: ", data)
-
-        dispatcher.utter_message(text="utter_incident_reason", json_message=data)
-
-        return []
-
-
-class ValidateForm(Action):
-    def name(self) -> Text:
-        return "user_details_form"
-
-    def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict) -> List[EventType]:
-
-        required_slots = ["first_name", "policy_Num","incident_date","incident_reason"]
-
-        for slot_name in required_slots:
-            if tracker.slots.get(slot_name) is None:
-                return [SlotSet("required_slots",slot_name)]
-        return [SlotSet("required_slots",None)]
 
 
 class ActionSubmit(Action):
     def name(self) -> Text:
-        return "action_submit"
+        return "action_request_details"
 
     def run(self,dispatcher,tracker: Tracker,domain: "DomainDict",) -> List[Dict[Text, Any]]:
 
-        dispatcher.utter_message(template="utter_submit",Name=tracker.get_slot("name"),
-                                 PolicyNumber=tracker.get_slot("policy"),
-                                 IncidentDate=tracker.get_slot("Date"),
-                                 IncidentReason=tracker.get_slot("reason"))
+        dispatcher.utter_message(template="utter_request_details",name=tracker.get_slot("name"),
+                                 policy=tracker.get_slot("policy"))
+#                                 IncidentDate=tracker.get_slot("Date"),
+#                                 IncidentReason=tracker.get_slot("reason"))
+
+        dataupdate(name=tracker.get_slot("name"),policy=tracker.get_slot("policy"))
+        dispatcher.utter_message("Thanks for the valuable feedback.")
+        return []
+
+
+#class Actionrequest_details(Action):
+#    def name(self) -> Text:
+#        """Unique identifier of the form"""
+#        return "action_request_details"
+
+
+#    def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+#       dataupdate(tracker.get_slot("name"),tracker.get_slot("policy"))
+#       dispatcher.utter_message("Thanks for the valuable feedback. ")
+#       return []
+
+
+#class ActionUserdetailsForm(FormAction):
+#    def name(self) -> Text:
+#        return "user_details_form"
+
+#    @staticmethod
+#    def required_slots(tracker: Tracker) -> List[Text]:
+#        return ["name","policy"]
+
+
+
+#    def slot_mappings(self):
+#        # type: () -> Dict[Text: Union[Dict, List[Dict]]]
+
+#        return {
+#                "name": [self.from_entity(entity="name",intent="name"), ],
+#                "policy": [self.from_text()],
+#        }
+
+#    def requestdetails(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict[Text, Any], ) -> List[Dict]:
+#       dispatcher.utter_message(template="utter_request_details",
+#                                name=tracker.get_slot("name"),policy=tracker.get_slot("policy"))
+#       return []
+
+
+
+#class ValidateForm(Action):
+
+#    def name(self) -> Text:
+#        return "user_details_form"
+
+#    def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict) -> List[EventType]:
+
+#        required_slots = ["name","policy"]
+
+#        for slot_name in required_slots:
+#            if tracker.slots.get(slot_name) is None:
+#                return [SlotSet("required_slots",slot_name)]
+#        return [SlotSet("required_slots",None)]
+
 
 
 

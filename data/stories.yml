@@ -29,38 +29,68 @@ stories:
   - intent: deny
   - action: utter_goodbye
 
-- story: claim new
+
+#- story: beginning of flow
+#  steps:
+#  - intent: greet
+#  - action: utter_greet
+#  - intent: request_details
+#  - action: user_details_form
+#  - active_loop: user_details_form
+#  - active_loop: null
+#  - action: utter_request_details
+#  - checkpoint: check_asked_question
+
+#- story: handle user affirm
+#  steps:
+#  - checkpoint: check_asked_question
+#  - intent: affirm
+#  - action: action_request_details
+#  - checkpoint: check_flow_finished
+
+#- story: handle user deny
+#  steps:
+#  - checkpoint: check_asked_question
+#  - intent: deny
+#  - action: utter_thanks
+#  - checkpoint: check_flow_finished
+
+- story: happy path 1
   steps:
-  - intent: claim_new
-  - action: utter_claim_new
+  - intent: greet
+  - action: utter_greet
+  - intent: request_details
+  - action: utter_ask_name
 
-#- story: first name
-#  steps:
-#  - intent: first_name
-#  - action: utter_first_name
-#  - intent: first_name
-#  - action: action_first_name
+- story: happy path 2
+  steps:
+  - intent: name
+  - action: utter_ask_policy
+  - intent: policy
+  - action: action_request_details
 
-#- story: policy Num
-#  steps:
-#  - intent: policy_Num
-#  - action: utter_policy_Num
-#  - intent: policy_Num
-#  - action: action_policy_Num
 
-#- story: incident date
+#- story: request_details
 #  steps:
-#  - intent: incident_date
-#  - action: utter_incident_date
-#  - intent: incident_date
-#  - action: action_incident_date
+#  - intent: request_details
+#  - action: action_request_details
 
-#- story: incident reason
+#- story: name
 #  steps:
-#  - intent: incident_reason
-#  - action: utter_incident_reason
-#  - intent: incident_reason
-#  - action: action_incident_reason
+#  - intent: name
+#  - action: user_details_form
+#  - action: action_name
+
+#- story: policy
+#  steps:
+#  - intent: policy
+#  - action: user_details_form
+#  - action: action_policy
+
+
+
+
+
 
 
 
